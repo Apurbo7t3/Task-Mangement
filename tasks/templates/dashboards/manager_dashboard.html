@@ -1,0 +1,103 @@
+{% extends "dashboards/dashboard.html" %}
+{% block Title %}Manager Dashboard{% endblock Title %}
+{% block Task %}
+
+
+        <!-- Task Table -->
+            <div class="shadow-lg bg-white divide divide-y-2 rounded-lg">
+            <div class="table-row-1 grid grid-cols-4 text-gray-500 p-5">
+                <div>TASK TITLE</div>
+                <div>PRIORITY</div>
+                <div>TEAM</div>
+                <div>CREATED AT</div>
+            </div>
+            <div>
+            {% if messages %}
+                {% for message in messages  %}
+                    <div class="p-5 m-3 text-black bg-red-500 font-bold rounded">
+                        {{ message }}</div>
+                {% endfor %}
+            {% endif %}
+        </div><br>
+
+            {% for task in tasks %}
+            <div class="table-row-2 grid grid-cols-4 items-center p-5">
+                <div class="flex items-center gap-2 p-2">
+                    <div class="w-2 h-2 rounded-full bg-green-500"></div>
+                    <span> {{ task.title }} </span>
+                    <a href="{% url 'update-form' task.id %}" class="px-2 py-1 bg-green-500">Edit</a>
+                    <form action="{% url 'delete-task' task.id %}" method="POST">
+                        {% csrf_token %}
+                        <button type="submit" class="px-2 py-1 bg-red-500">Delete</button>
+                    </form>
+                </div>
+                <div class="flex items-center">
+                    <span class="px-3 py-1 text-sm bg-blue-100 text-blue-500 rounded-full">
+                        {{ task.details.get_priority_display }}
+                    </span>
+                </div>
+                <div class="flex -space-x-2">
+                    {% for emp in task.assigned_to.all %}
+                        <div class="w-8 h-8 rounded-full bg-blue-500 text-white text-sm
+                         border-2 border-white flex justify-center items-center">
+                         {{ emp.name | slice:":2"}}
+                        </div>
+                    {% endfor %}
+                </div>
+                <div class="text-sm text-gray-500 flex items-center">
+                    {{ task.created |timesince }}
+                </div>
+            </div>
+            {% endfor %}
+
+
+            <div class="table-row-3 grid grid-cols-4 items-center p-5">
+                <div class="flex items-center gap-2">
+                    <div class="w-2 h-2 rounded-full bg-yellow-500"></div>
+                    <span>Test Task</span>
+                </div>
+                <div class="flex items-center">
+                    <span class="px-3 py-1 text-sm bg-gray-100 text-gray-500 rounded-full">
+                        Normal
+                    </span>
+                </div>
+                <div class="flex -space-x-2">
+                    <div class="w-8 h-8 rounded-full bg-blue-500 text-white text-sm border-2 border-white flex justify-center items-center">AJ</div>
+                    <div class="w-8 h-8 rounded-full bg-blue-500 text-white text-sm border-2 border-white flex justify-center items-center">EV</div>
+                    <div class="w-8 h-8 rounded-full bg-blue-500 text-white text-sm border-2 border-white flex justify-center items-center">B</div>
+                </div>
+                <div class="text-sm text-gray-500 flex items-center">
+                    9 months ago
+                </div>
+            </div>
+
+
+            <div class="table-row-4 grid grid-cols-4 items-center p-5">
+                <div class="flex items-center gap-2">
+                    <div class="w-2 h-2 rounded-full bg-orange-500"></div>
+                    <span>Test Task</span>
+                </div>
+                <div class="flex items-center">
+                    <span class="px-3 py-1 text-sm bg-red-100 text-red-500 rounded-full">
+                        High
+                    </span>
+                </div>
+                <div class="flex -space-x-2">
+                    <div class="w-8 h-8 rounded-full bg-blue-500 text-white text-sm border-2 border-white flex justify-center items-center">CA</div>
+                    <div class="w-8 h-8 rounded-full bg-blue-500 text-white text-sm border-2 border-white flex justify-center items-center">JS</div>
+                    <div class="w-8 h-8 rounded-full bg-blue-500 text-white text-sm border-2 border-white flex justify-center items-center">AJ</div>
+                    <div class="w-8 h-8 rounded-full bg-blue-500 text-white text-sm border-2 border-white flex justify-center items-center">B</div>
+                </div>
+                <div class="text-sm text-gray-500 flex items-center">
+                    10 months ago
+                </div>
+            </div>
+
+            </div>
+
+    </main>
+
+</body>
+</html>
+
+{% endblock Task %}

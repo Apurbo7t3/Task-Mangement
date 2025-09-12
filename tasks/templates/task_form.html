@@ -1,0 +1,28 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="{% static 'css/output.css' %}">
+</head>
+<body>
+    <div class="w-1/2 mx-auto">
+        <div>
+            {% if messages %}
+                {% for message in messages  %}
+                    <div class="p-5 m-3 text-black bg-green-500 font-bold rounded">
+                        {{ message }}</div>
+                {% endfor %}
+            {% endif %}
+        </div>
+        <form method="post">
+        {% csrf_token %}
+        {{ task_form }}
+        {{ task_detail_form }}
+        <button type="submit" class="m-4 bg-rose-500 text-white rounded-md p-2">Submit</button>
+    </form>
+    </div>
+</body>
+</html>
